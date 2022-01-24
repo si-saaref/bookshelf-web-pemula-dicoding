@@ -4,11 +4,17 @@ const FINISH_BOOK = "completeBookshelfList";
 // CONTAINER
 const createContainer = (bookTitle, bookAuthor, bookYear) => {
 	const titleContainer = document.createElement("h2");
+  titleContainer.classList.add('title')
 	titleContainer.innerText = bookTitle;
+
 	const authorContainer = document.createElement("p");
+  authorContainer.classList.add('author')
 	authorContainer.innerText = bookAuthor;
+
 	const yearContainer = document.createElement("p");
+  yearContainer.classList.add('year')
 	yearContainer.innerText = bookYear;
+  
 	const Container = document.createElement("article");
 	Container.classList.add("book_item");
 
@@ -48,6 +54,23 @@ const addBookToList = () => {
 	resetDataForm();
 };
 
+const deleteBookFromList = (bookElement) => {
+	bookElement.remove();
+};
+
+const moveBookToCompleteList = (bookElement) => {
+	const bookTitle = bookElement.querySelector(".book_item > h2.title").innerText;
+	const bookAuthor = bookElement.querySelector(".book_item > p.author").innerText;
+	const bookYear = bookElement.querySelector(".book_item > p.year").innerText;
+
+  const newBookContainer = createContainer(bookTitle, bookAuthor, bookYear)
+  const parentFinishContainer = document.getElementById(FINISH_BOOK)
+
+  parentFinishContainer.append(newBookContainer)
+
+  bookElement.remove()
+}; 
+
 const resetDataForm = () => {
 	const bookTitle = document.getElementById("inputBookTitle");
 	const bookAuthor = document.getElementById("inputBookAuthor");
@@ -72,13 +95,13 @@ const createButton = (buttonText, buttonClassName, buttonEventListener) => {
 
 const removeButton = () => {
 	return createButton("Hapus", "remove-button", function (e) {
-		alert("REMOVE BOOK");
+		deleteBookFromList(e.target.parentElement);
 	});
 };
 
 const finishButton = () => {
 	return createButton("Selesai", "finish-button", function (e) {
-		alert("FINISH BOOK");
+		moveBookToCompleteList(e.target.parentElement);
 	});
 };
 

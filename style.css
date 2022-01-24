@@ -162,20 +162,16 @@ p {
 	cursor: pointer;
 }
 
-.book_shelf > .book_list > .book_item > .action > .green {
-	background-color: darkgreen;
-	color: white;
-}
-
-.book_shelf > .book_list > .book_item > .action > .red {
-	background-color: darkred;
-	color: white;
-}
-
 .finish-button {
-  background-color: darkgreen;
+	background-color: darkgreen;
+  padding: 5px;
+  border-radius: 5px;
+	color: white;
 }
 
 .remove-button {
   background-color: darkred;
+  padding: 5px;
+  border-radius: 5px;
+	color: white;
 }
