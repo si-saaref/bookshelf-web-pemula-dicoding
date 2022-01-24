@@ -30,13 +30,19 @@ const addBookToList = () => {
 	const bookTitle = document.getElementById("inputBookTitle").value;
 	const bookAuthor = document.getElementById("inputBookAuthor").value;
 	const bookYear = document.getElementById("inputBookYear").value;
-	const bookIsComplete = document.getElementById("inputBookIsComplete").value;
+	const bookIsComplete = document.getElementById("inputBookIsComplete").checked;
 
 	const bookContainer = createContainer(bookTitle, bookAuthor, bookYear);
 
-	const parentContainer = document.getElementById(UNFINISH_BOOK);
+	const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK);
+	const parentFinishContainer = document.getElementById(FINISH_BOOK);
 
-	parentContainer.append(bookContainer);
+	parentUnFinishContainer.append(bookContainer);
+
+	bookIsComplete
+		? parentFinishContainer.append(bookContainer)
+		: parentUnFinishContainer.append(bookContainer);
+
 	console.log(bookContainer);
 
 	resetDataForm();
@@ -46,9 +52,11 @@ const resetDataForm = () => {
 	const bookTitle = document.getElementById("inputBookTitle");
 	const bookAuthor = document.getElementById("inputBookAuthor");
 	const bookYear = document.getElementById("inputBookYear");
+	const bookIsComplete = document.getElementById("inputBookIsComplete");
 	bookTitle.value = "";
 	bookAuthor.value = "";
 	bookYear.value = "";
+  bookIsComplete.checked = false;
 };
 
 // BUTTON
