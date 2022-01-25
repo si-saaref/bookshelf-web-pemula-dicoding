@@ -48,7 +48,6 @@ const addBookToList = () => {
 	const bookAuthor = document.getElementById("inputBookAuthor").value;
 	const bookYear = document.getElementById("inputBookYear").value;
 	const bookIsComplete = document.getElementById("inputBookIsComplete").checked;
-
 	const bookContainer = createContainer(bookTitle, bookAuthor, bookYear, bookIsComplete);
 
 	const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK);
@@ -61,8 +60,8 @@ const addBookToList = () => {
 		: parentUnFinishContainer.append(bookContainer);
 
 	console.log(bookContainer);
-	console.log("isUpdate ", isUpdate);
-	console.log("toDelete ", isUpdate);
+	// console.log("isUpdate ", isUpdate);
+	// console.log("toDelete ", isUpdate);
 
 	toDeleteUpdate = true;
 
@@ -115,17 +114,17 @@ const updateDetailBook = (bookElement) => {
 
 	isUpdate = true;
 
-	console.log("toDelete out block", toDeleteUpdate);
+	// console.log("toDelete out block", toDeleteUpdate);
 	if (toDeleteUpdate === true) {
 		bookElement.remove();
-		console.log("toDelete isnide block", toDeleteUpdate);
+		// console.log("toDelete isnide block", toDeleteUpdate);
 	}
 	// toDeleteUpdate = false;
 };
 
 const searchBookFunction = () => {
-	const inputSearch = document.getElementById("searchBookTitle");
-	console.log(inputSearch.value);
+	const inputSearch = document.getElementById("searchBookTitle").value;
+	console.log(inputSearch.replace(/ /g, ""));
 };
 
 const resetDataForm = () => {
