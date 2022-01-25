@@ -1,6 +1,9 @@
 const UNFINISH_BOOK = "incompleteBookshelfList";
 const FINISH_BOOK = "completeBookshelfList";
 
+let isUpdate = false;
+let toDeleteUpdate = false;
+
 // CONTAINER
 const createContainer = (bookTitle, bookAuthor, bookYear, isComplete) => {
 	const titleContainer = document.createElement("h2");
@@ -21,9 +24,17 @@ const createContainer = (bookTitle, bookAuthor, bookYear, isComplete) => {
 	const buttonTrash = removeButton();
 	const buttonFinish = finishButton();
 	const buttonUndo = undoButton();
+	const buttonUpdate = updateButton();
 	
 	if (!isComplete) {
-		Container.append(titleContainer, authorContainer, yearContainer, buttonFinish, buttonTrash);
+		Container.append(
+			titleContainer,
+			authorContainer,
+			yearContainer,
+			buttonFinish,
+			buttonTrash,
+			buttonUpdate
+		);
 	} else {
 		Container.append(titleContainer, authorContainer, yearContainer, buttonUndo, buttonTrash);
 	}
@@ -50,6 +61,10 @@ const addBookToList = () => {
 		: parentUnFinishContainer.append(bookContainer);
 
 	console.log(bookContainer);
+	console.log("isUpdate ", isUpdate);
+	console.log("toDelete ", isUpdate);
+
+	toDeleteUpdate = true;
 
 	resetDataForm();
 };
@@ -82,6 +97,35 @@ const undoBookFromCompleteList = (bookElement) => {
 	parentUnFinishContainer.append(newBookContainer);
 
 	bookElement.remove();
+};
+
+const updateDetailBook = (bookElement) => {
+	const bookTitle = bookElement.querySelector(".book_item > h2.title").innerText;
+	const bookAuthor = bookElement.querySelector(".book_item > p.author").innerText;
+	const bookYear = bookElement.querySelector(".book_item > p.year").innerText;
+
+	let bookInputTitle = document.getElementById("inputBookTitle");
+	let bookInputAuthor = document.getElementById("inputBookAuthor");
+	let bookInputYear = document.getElementById("inputBookYear");
+	// let bookInputIsComplete = document.getElementById("inputBookIsComplete").checked;
+
+	bookInputTitle.value = bookTitle;
+	bookInputAuthor.value = bookAuthor;
+	bookInputYear.value = bookYear;
+
+	isUpdate = true;
+
+	console.log("toDelete out block", toDeleteUpdate);
+	if (toDeleteUpdate === true) {
+		bookElement.remove();
+		console.log("toDelete isnide block", toDeleteUpdate);
+	}
+	// toDeleteUpdate = false;
+};
+
+const searchBookFunction = () => {
+	const inputSearch = document.getElementById("searchBookTitle");
+	console.log(inputSearch.value);
 };
 
 const resetDataForm = () => {
@@ -120,7 +164,7 @@ const finishButton = () => {
 
 const updateButton = () => {
 	return createButton("Update", "update-button", function (e) {
-		alert("Update BOOK");
+		updateDetailBook(e.target.parentElement);
 	});
 };
 

@@ -182,3 +182,10 @@ p {
   border-radius: 5px;
 	color: white;
 }
+
+.update-button {
+	background-color: darkgreen;
+  padding: 5px;
+  border-radius: 5px;
+	color: white;
+}

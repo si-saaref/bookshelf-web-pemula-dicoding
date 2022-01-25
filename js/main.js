@@ -5,4 +5,11 @@ window.addEventListener('load', function () {
     e.preventDefault()
     addBookToList()
   })
+
+  const buttonSearch = document.getElementById("searchBook");
+
+	buttonSearch.addEventListener("submit", function (e) {
+		e.preventDefault();
+		searchBookFunction();
+	});
 })
