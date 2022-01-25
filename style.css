@@ -175,3 +175,10 @@ p {
   border-radius: 5px;
 	color: white;
 }
+
+.undo-button {
+	background-color: darkgreen;
+  padding: 5px;
+  border-radius: 5px;
+	color: white;
+}

@@ -2,31 +2,31 @@ const UNFINISH_BOOK = "incompleteBookshelfList";
 const FINISH_BOOK = "completeBookshelfList";
 
 // CONTAINER
-const createContainer = (bookTitle, bookAuthor, bookYear) => {
+const createContainer = (bookTitle, bookAuthor, bookYear, isComplete) => {
 	const titleContainer = document.createElement("h2");
-  titleContainer.classList.add('title')
+	titleContainer.classList.add("title");
 	titleContainer.innerText = bookTitle;
 
 	const authorContainer = document.createElement("p");
-  authorContainer.classList.add('author')
+	authorContainer.classList.add("author");
 	authorContainer.innerText = bookAuthor;
 
 	const yearContainer = document.createElement("p");
-  yearContainer.classList.add('year')
+	yearContainer.classList.add("year");
 	yearContainer.innerText = bookYear;
-  
+
 	const Container = document.createElement("article");
 	Container.classList.add("book_item");
 
 	const buttonTrash = removeButton();
 	const buttonFinish = finishButton();
-	Container.append(
-		titleContainer,
-		authorContainer,
-		yearContainer,
-		buttonFinish,
-		buttonTrash
-	);
+	const buttonUndo = undoButton();
+	
+	if (!isComplete) {
+		Container.append(titleContainer, authorContainer, yearContainer, buttonFinish, buttonTrash);
+	} else {
+		Container.append(titleContainer, authorContainer, yearContainer, buttonUndo, buttonTrash);
+	}
 
 	return Container;
 };
@@ -38,7 +38,7 @@ const addBookToList = () => {
 	const bookYear = document.getElementById("inputBookYear").value;
 	const bookIsComplete = document.getElementById("inputBookIsComplete").checked;
 
-	const bookContainer = createContainer(bookTitle, bookAuthor, bookYear);
+	const bookContainer = createContainer(bookTitle, bookAuthor, bookYear, bookIsComplete);
 
 	const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK);
 	const parentFinishContainer = document.getElementById(FINISH_BOOK);
@@ -63,13 +63,26 @@ const moveBookToCompleteList = (bookElement) => {
 	const bookAuthor = bookElement.querySelector(".book_item > p.author").innerText;
 	const bookYear = bookElement.querySelector(".book_item > p.year").innerText;
 
-  const newBookContainer = createContainer(bookTitle, bookAuthor, bookYear)
-  const parentFinishContainer = document.getElementById(FINISH_BOOK)
+	const newBookContainer = createContainer(bookTitle, bookAuthor, bookYear, true);
+	const parentFinishContainer = document.getElementById(FINISH_BOOK);
 
-  parentFinishContainer.append(newBookContainer)
+	parentFinishContainer.append(newBookContainer);
 
-  bookElement.remove()
-}; 
+	bookElement.remove();
+};
+
+const undoBookFromCompleteList = (bookElement) => {
+	const bookTitle = bookElement.querySelector(".book_item > h2.title").innerText;
+	const bookAuthor = bookElement.querySelector(".book_item > p.author").innerText;
+	const bookYear = bookElement.querySelector(".book_item > p.year").innerText;
+
+	const newBookContainer = createContainer(bookTitle, bookAuthor, bookYear, false);
+	const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK);
+
+	parentUnFinishContainer.append(newBookContainer);
+
+	bookElement.remove();
+};
 
 const resetDataForm = () => {
 	const bookTitle = document.getElementById("inputBookTitle");
@@ -79,7 +92,7 @@ const resetDataForm = () => {
 	bookTitle.value = "";
 	bookAuthor.value = "";
 	bookYear.value = "";
-  bookIsComplete.checked = false;
+	bookIsComplete.checked = false;
 };
 
 // BUTTON
@@ -113,6 +126,6 @@ const updateButton = () => {
 
 const undoButton = () => {
 	return createButton("Undo", "undo-button", function (e) {
-		alert("Undo Book");
+		undoBookFromCompleteList(e.target.parentElement);
 	});
 };
