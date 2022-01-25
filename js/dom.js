@@ -1,5 +1,6 @@
 const UNFINISH_BOOK = "incompleteBookshelfList";
 const FINISH_BOOK = "completeBookshelfList";
+const BOOK_ID = "bookId"
 
 let isUpdate = false;
 let toDeleteUpdate = false;
@@ -48,23 +49,29 @@ const addBookToList = () => {
 	const bookAuthor = document.getElementById("inputBookAuthor").value;
 	const bookYear = document.getElementById("inputBookYear").value;
 	const bookIsComplete = document.getElementById("inputBookIsComplete").checked;
+	
 	const bookContainer = createContainer(bookTitle, bookAuthor, bookYear, bookIsComplete);
-
+	const composedBookContainer = composedDataBook(bookTitle, bookAuthor, bookYear, bookIsComplete);
+	bookContainer[BOOK_ID] = composedBookContainer.id
+	books.push(composedBookContainer)
+	
 	const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK);
 	const parentFinishContainer = document.getElementById(FINISH_BOOK);
 
-	parentUnFinishContainer.append(bookContainer);
 
+	parentUnFinishContainer.append(bookContainer);
 	bookIsComplete
 		? parentFinishContainer.append(bookContainer)
 		: parentUnFinishContainer.append(bookContainer);
 
 	console.log(bookContainer);
+	console.log(composedBookContainer);
 	// console.log("isUpdate ", isUpdate);
 	// console.log("toDelete ", isUpdate);
 
 	toDeleteUpdate = true;
 
+	updateDataBook()
 	resetDataForm();
 };
 

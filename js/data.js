@@ -6,10 +6,10 @@ const isStorageExist = () => {
 	if (typeof Storage === undefined) {
 		return false;
 	}
-	return type;
+	return true;
 };
 
-const addBookToLocalStorage = () => {
+const postBookToLocalStorage = () => {
 	const bookPost = JSON.stringify(books);
 	localStorage.setItem(LOCAL_STORAGE_KEY, bookPost);
 	document.dispatchEvent(new Event("onAddBook"));
@@ -26,7 +26,7 @@ const getBookFromLocalStorage = () => {
 
 const updateDataBook = () => {
 	if (isStorageExist()) {
-		addBookToList();
+		postBookToLocalStorage();
 	}
 };
 
