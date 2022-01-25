@@ -12,7 +12,7 @@ const isStorageExist = () => {
 const postBookToLocalStorage = () => {
 	const bookPost = JSON.stringify(books);
 	localStorage.setItem(LOCAL_STORAGE_KEY, bookPost);
-	document.dispatchEvent(new Event("onAddBook"));
+	document.dispatchEvent(new Event("onPostBook"));
 };
 
 const getBookFromLocalStorage = () => {
@@ -71,7 +71,7 @@ const refreshDataBookFromBooks = () => {
 			book.bookYear,
 			book.isComplete
 		);
-		newBook[BOOK_ITEM_ID] = book.id;
+		newBook[BOOK_ID] = book.id;
 
 		if (book.isComplete) {
 			listFinish.append(newBook);

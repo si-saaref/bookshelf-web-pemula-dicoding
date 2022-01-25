@@ -1,15 +1,27 @@
-window.addEventListener('load', function () {
-  const submitForm = document.getElementById('inputBook')
+window.addEventListener("load", function () {
+	const submitForm = document.getElementById("inputBook");
 
-  submitForm.addEventListener('submit', function (e) {
-    e.preventDefault()
-    addBookToList()
-  })
+	submitForm.addEventListener("submit", function (e) {
+		e.preventDefault();
+		addBookToList();
+	});
 
-  const buttonSearch = document.getElementById("searchBook");
+	const buttonSearch = document.getElementById("searchBook");
 
 	buttonSearch.addEventListener("submit", function (e) {
 		e.preventDefault();
 		searchBookFunction();
 	});
-})
+
+	if (isStorageExist()) {
+		getBookFromLocalStorage();
+	}
+});
+
+document.addEventListener("onPostBook", function () {
+	console.log("Data Berhasil di tambah");
+});
+
+document.addEventListener("onGetBook", function () {
+	refreshDataBookFromBooks();
+});
