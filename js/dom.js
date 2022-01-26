@@ -76,7 +76,11 @@ const addBookToList = () => {
 };
 
 const deleteBookFromList = (bookElement) => {
+	const bookIndexPosition = findBookIndex(bookElement[BOOK_ID]);
+	books.splice(bookIndexPosition, 1);
+	console.log(bookIndexPosition);
 	bookElement.remove();
+	updateDataBook();
 };
 
 const moveBookToCompleteList = (bookElement) => {

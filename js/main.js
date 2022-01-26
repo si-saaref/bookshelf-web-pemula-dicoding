@@ -19,7 +19,7 @@ window.addEventListener("load", function () {
 });
 
 document.addEventListener("onPostBook", function () {
-	console.log("Data Berhasil di tambah");
+	console.log("Berhasil mengubah data");
 });
 
 document.addEventListener("onGetBook", function () {
