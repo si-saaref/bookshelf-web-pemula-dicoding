@@ -189,3 +189,7 @@ p {
   border-radius: 5px;
 	color: white;
 }
+
+.scaleX2 {
+	background: #999;
+}

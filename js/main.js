@@ -4,6 +4,9 @@ window.addEventListener("load", function () {
 	submitForm.addEventListener("submit", function (e) {
 		e.preventDefault();
 		addBookToList();
+		if (isUpdate) {
+			updateBookToList();
+		}
 	});
 
 	const buttonSearch = document.getElementById("searchBook");

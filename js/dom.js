@@ -68,8 +68,6 @@ const addBookToList = () => {
 	// console.log("isUpdate ", isUpdate);
 	// console.log("toDelete ", isUpdate);
 
-	toDeleteUpdate = true;
-
 	updateDataBook();
 	resetDataForm();
 };
@@ -98,8 +96,7 @@ const moveBookToCompleteList = (bookElement) => {
 
 	bookElement.remove();
 	updateDataBook();
-	// deleteBookFromList(bookElement);
-};;
+};
 
 const undoBookFromCompleteList = (bookElement) => {
 	const bookTitle = bookElement.querySelector(".book_item > h2.title").innerText;
@@ -119,48 +116,71 @@ const undoBookFromCompleteList = (bookElement) => {
 	updateDataBook();
 };
 
-const updateDetailBook = (bookElement) => {
+const updateBookToList = (bookElem) => {
+	const updatedBook = handleUpdate();
+	console.log(updatedBook);
+	// const newBookContainer = createContainer(bookInputTitle, bookInputAuthor, bookInputYear, isComplete);
+	// newBookContainer[BOOK_ID] = id
+
+	// const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK)
+	// parentUnFinishContainer.append(newBookContainer)
+
+	// console.log("toDelete out block", toDeleteUpdate);
+	// if (toDeleteUpdate === true) {
+	// 	bookElement.remove();
+	// console.log("toDelete isnide block", toDeleteUpdate);
+	// }
+	// toDeleteUpdate = false;
+	// updateDataBook()
+};
+
+const handleUpdate = (bookElem) => {
 	let bookInputTitle = document.getElementById("inputBookTitle");
 	let bookInputAuthor = document.getElementById("inputBookAuthor");
 	let bookInputYear = document.getElementById("inputBookYear");
-	
-	const {  bookTitle, bookAuthor, bookYear, id, isComplete  } = findBook(bookElement[BOOK_ID]);
-	
+
+	const detailBook = findBook(bookElem[BOOK_ID]);
+	const { bookTitle, bookAuthor, bookYear } = detailBook;
+
 	bookInputTitle.value = bookTitle;
 	bookInputAuthor.value = bookAuthor;
 	bookInputYear.value = bookYear;
-	
-	const newBookContainer = createContainer(bookInputTitle, bookInputAuthor, bookInputYear, isComplete);
-	newBookContainer[BOOK_ID] = id
-
-	const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK)
-	parentUnFinishContainer.append(newBookContainer)
 
 	isUpdate = true;
 
-	// console.log("toDelete out block", toDeleteUpdate);
-	if (toDeleteUpdate === true) {
-		bookElement.remove();
-		// console.log("toDelete isnide block", toDeleteUpdate);
-	}
-	// toDeleteUpdate = false;
-	updateDataBook()
+	console.log("handle update", detailBook);
+	return bookElem;
 };
 
 const searchBookFunction = () => {
-	const inputSearch = document.getElementById("searchBookTitle").value;
-	console.log(inputSearch.replace(/ /g, ""));
-};
+	let inputSearch = document.getElementById("searchBookTitle").value;
+	const searchedBook = searchBook(inputSearch.toLowerCase().split(" "));
+	const searchedBookId = searchedBook?.id
+	const allContainer = document.querySelectorAll(".book_item");
+	console.log(searchedBookId);
+	allContainer.forEach((e) => {
+		if(e[BOOK_ID] === searchedBookId) {
+			e.classList.add('scaleX2')
+		} else {
+			e.classList.remove('scaleX2')
+		}
+	});
+	resetDataForm()
+	// console.log(inputSearch.replace(/ /g, ""));
+	// console.log(inputSearch.split(" "));
+};;
 
 const resetDataForm = () => {
 	const bookTitle = document.getElementById("inputBookTitle");
 	const bookAuthor = document.getElementById("inputBookAuthor");
 	const bookYear = document.getElementById("inputBookYear");
 	const bookIsComplete = document.getElementById("inputBookIsComplete");
+	const inputSearch = document.getElementById("searchBookTitle"); 
 	bookTitle.value = "";
 	bookAuthor.value = "";
 	bookYear.value = "";
 	bookIsComplete.checked = false;
+	inputSearch.value = "";
 };
 
 // BUTTON
@@ -188,7 +208,7 @@ const finishButton = () => {
 
 const updateButton = () => {
 	return createButton("Update", "update-button", function (e) {
-		updateDetailBook(e.target.parentElement);
+		handleUpdate(e.target.parentElement);
 	});
 };
 
