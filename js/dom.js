@@ -1,6 +1,6 @@
 const UNFINISH_BOOK = "incompleteBookshelfList";
 const FINISH_BOOK = "completeBookshelfList";
-const BOOK_ID = "bookId"
+const BOOK_ID = "bookId";
 
 let isUpdate = false;
 let toDeleteUpdate = false;
@@ -26,7 +26,7 @@ const createContainer = (bookTitle, bookAuthor, bookYear, isComplete) => {
 	const buttonFinish = finishButton();
 	const buttonUndo = undoButton();
 	const buttonUpdate = updateButton();
-	
+
 	if (!isComplete) {
 		Container.append(
 			titleContainer,
@@ -49,15 +49,14 @@ const addBookToList = () => {
 	const bookAuthor = document.getElementById("inputBookAuthor").value;
 	const bookYear = document.getElementById("inputBookYear").value;
 	const bookIsComplete = document.getElementById("inputBookIsComplete").checked;
-	
+
 	const bookContainer = createContainer(bookTitle, bookAuthor, bookYear, bookIsComplete);
 	const composedBookContainer = composedDataBook(bookTitle, bookAuthor, bookYear, bookIsComplete);
-	bookContainer[BOOK_ID] = composedBookContainer.id
-	books.push(composedBookContainer)
-	
+	bookContainer[BOOK_ID] = composedBookContainer.id;
+	books.push(composedBookContainer);
+
 	const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK);
 	const parentFinishContainer = document.getElementById(FINISH_BOOK);
-
 
 	parentUnFinishContainer.append(bookContainer);
 	bookIsComplete
@@ -71,7 +70,7 @@ const addBookToList = () => {
 
 	toDeleteUpdate = true;
 
-	updateDataBook()
+	updateDataBook();
 	resetDataForm();
 };
 
@@ -88,40 +87,54 @@ const moveBookToCompleteList = (bookElement) => {
 	const bookAuthor = bookElement.querySelector(".book_item > p.author").innerText;
 	const bookYear = bookElement.querySelector(".book_item > p.year").innerText;
 
-	const newBookContainer = createContainer(bookTitle, bookAuthor, bookYear, true);
+	const bookContainer = createContainer(bookTitle, bookAuthor, bookYear, true);
+	const newBookContainer = findBook(bookElement[BOOK_ID]);
+	bookContainer[BOOK_ID] = newBookContainer.id;
+	newBookContainer.isComplete = true;
+
 	const parentFinishContainer = document.getElementById(FINISH_BOOK);
 
-	parentFinishContainer.append(newBookContainer);
+	parentFinishContainer.append(bookContainer);
 
 	bookElement.remove();
-};
+	updateDataBook();
+	// deleteBookFromList(bookElement);
+};;
 
 const undoBookFromCompleteList = (bookElement) => {
 	const bookTitle = bookElement.querySelector(".book_item > h2.title").innerText;
 	const bookAuthor = bookElement.querySelector(".book_item > p.author").innerText;
 	const bookYear = bookElement.querySelector(".book_item > p.year").innerText;
 
-	const newBookContainer = createContainer(bookTitle, bookAuthor, bookYear, false);
+	const bookContainer = createContainer(bookTitle, bookAuthor, bookYear, false);
+	const newBookContainer = findBook(bookElement[BOOK_ID]);
+	newBookContainer.isComplete = false;
+	bookContainer[BOOK_ID] = newBookContainer.id;
+
 	const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK);
 
-	parentUnFinishContainer.append(newBookContainer);
+	parentUnFinishContainer.append(bookContainer);
 
 	bookElement.remove();
+	updateDataBook();
 };
 
 const updateDetailBook = (bookElement) => {
-	const bookTitle = bookElement.querySelector(".book_item > h2.title").innerText;
-	const bookAuthor = bookElement.querySelector(".book_item > p.author").innerText;
-	const bookYear = bookElement.querySelector(".book_item > p.year").innerText;
-
 	let bookInputTitle = document.getElementById("inputBookTitle");
 	let bookInputAuthor = document.getElementById("inputBookAuthor");
 	let bookInputYear = document.getElementById("inputBookYear");
-	// let bookInputIsComplete = document.getElementById("inputBookIsComplete").checked;
-
+	
+	const {  bookTitle, bookAuthor, bookYear, id, isComplete  } = findBook(bookElement[BOOK_ID]);
+	
 	bookInputTitle.value = bookTitle;
 	bookInputAuthor.value = bookAuthor;
 	bookInputYear.value = bookYear;
+	
+	const newBookContainer = createContainer(bookInputTitle, bookInputAuthor, bookInputYear, isComplete);
+	newBookContainer[BOOK_ID] = id
+
+	const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK)
+	parentUnFinishContainer.append(newBookContainer)
 
 	isUpdate = true;
 
@@ -131,6 +144,7 @@ const updateDetailBook = (bookElement) => {
 		// console.log("toDelete isnide block", toDeleteUpdate);
 	}
 	// toDeleteUpdate = false;
+	updateDataBook()
 };
 
 const searchBookFunction = () => {
