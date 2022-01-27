@@ -53,6 +53,7 @@ const addBookToList = () => {
 	const bookContainer = createContainer(bookTitle, bookAuthor, bookYear, bookIsComplete);
 	const composedBookContainer = composedDataBook(bookTitle, bookAuthor, bookYear, bookIsComplete);
 	bookContainer[BOOK_ID] = composedBookContainer.id;
+	// bookContainer.setAttribute("id", composedBookContainer.id);
 	books.push(composedBookContainer);
 
 	const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK);
@@ -117,8 +118,7 @@ const undoBookFromCompleteList = (bookElement) => {
 };
 
 const updateBookToList = (bookElem) => {
-	const updatedBook = handleUpdate();
-	console.log(updatedBook);
+	console.log(bookElem);
 	// const newBookContainer = createContainer(bookInputTitle, bookInputAuthor, bookInputYear, isComplete);
 	// newBookContainer[BOOK_ID] = id
 
@@ -149,33 +149,34 @@ const handleUpdate = (bookElem) => {
 	isUpdate = true;
 
 	console.log("handle update", detailBook);
-	return bookElem;
+	return updateBookToList(detailBook);
 };
 
 const searchBookFunction = () => {
 	let inputSearch = document.getElementById("searchBookTitle").value;
-	const searchedBook = searchBook(inputSearch.toLowerCase().split(" "));
-	const searchedBookId = searchedBook?.id
+	const searchedBook = searchBook(inputSearch);
 	const allContainer = document.querySelectorAll(".book_item");
-	console.log(searchedBookId);
+	console.log(allContainer);
+	let filteredBook = [];
 	allContainer.forEach((e) => {
-		if(e[BOOK_ID] === searchedBookId) {
-			e.classList.add('scaleX2')
-		} else {
-			e.classList.remove('scaleX2')
-		}
+		console.log(e[BOOK_ID]);
+		searchedBook.forEach((book) => {
+			e.classList.remove("scaleX2");
+			return e[BOOK_ID] === book.id && filteredBook.push(e);
+		});
 	});
-	resetDataForm()
-	// console.log(inputSearch.replace(/ /g, ""));
-	// console.log(inputSearch.split(" "));
-};;
+	filteredBook.forEach((e) => {
+		e.classList.add("scaleX2");
+	});
+	resetDataForm();
+};
 
 const resetDataForm = () => {
 	const bookTitle = document.getElementById("inputBookTitle");
 	const bookAuthor = document.getElementById("inputBookAuthor");
 	const bookYear = document.getElementById("inputBookYear");
 	const bookIsComplete = document.getElementById("inputBookIsComplete");
-	const inputSearch = document.getElementById("searchBookTitle"); 
+	const inputSearch = document.getElementById("searchBookTitle");
 	bookTitle.value = "";
 	bookAuthor.value = "";
 	bookYear.value = "";

@@ -50,17 +50,19 @@ const findBook = (bookId) => {
 };
 
 const searchBook = (inputTitle) => {
+	let filterBook = [];
 	for (book of books) {
+		const inputTitleSplitted = inputTitle.toLowerCase().split(" ");
 		const bookSplitted = book.bookTitle.toLowerCase().split(" ");
 		for (splitBook of bookSplitted) {
-			for (splitInputTitle of inputTitle) {
+			for (splitInputTitle of inputTitleSplitted) {
 				if (splitInputTitle === splitBook) {
-					return book;
+					filterBook.push(book);
 				}
 			}
 		}
 	}
-	return null;
+	return filterBook ?? filterBook;
 };
 
 const findBookIndex = (bookId) => {
