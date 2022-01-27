@@ -4,6 +4,7 @@ const BOOK_ID = "bookId";
 
 let isUpdate = false;
 let toDeleteUpdate = false;
+let dataBookForUpdate;
 
 // CONTAINER
 const createContainer = (bookTitle, bookAuthor, bookYear, isComplete) => {
@@ -117,21 +118,39 @@ const undoBookFromCompleteList = (bookElement) => {
 	updateDataBook();
 };
 
-const updateBookToList = (bookElem) => {
-	console.log(bookElem);
-	// const newBookContainer = createContainer(bookInputTitle, bookInputAuthor, bookInputYear, isComplete);
-	// newBookContainer[BOOK_ID] = id
+const updateBookToList = () => {
+	let bookTitle = document.getElementById("inputBookTitle").value;
+	let bookAuthor = document.getElementById("inputBookAuthor").value;
+	let bookYear = document.getElementById("inputBookYear").value;
+	let isComplete = document.getElementById("inputBookIsComplete").checked;
 
-	// const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK)
-	// parentUnFinishContainer.append(newBookContainer)
+	const { id } = dataBookForUpdate;
 
-	// console.log("toDelete out block", toDeleteUpdate);
-	// if (toDeleteUpdate === true) {
-	// 	bookElement.remove();
-	// console.log("toDelete isnide block", toDeleteUpdate);
-	// }
-	// toDeleteUpdate = false;
-	// updateDataBook()
+	const allContainer = document.querySelectorAll(".book_item");
+	allContainer.forEach((e) => {
+		e[BOOK_ID] === id && e.parentNode.removeChild(e);
+	});
+
+	const newBookContainer = createContainer(bookTitle, bookAuthor, bookYear, isComplete);
+	const newComposedDataBook = { id, bookTitle, bookAuthor, bookYear, isComplete };
+	books.push(newComposedDataBook);
+	newBookContainer[BOOK_ID] = id;
+
+	const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK);
+	const parentFinishContainer = document.getElementById(FINISH_BOOK);
+	if (isComplete) {
+		parentFinishContainer.append(newBookContainer);
+	} else {
+		parentUnFinishContainer.append(newBookContainer);
+	}
+
+	const bookIndexPosition = findBookIndex(id);
+	books.splice(bookIndexPosition, 1);
+
+	toDeleteUpdate = false;
+	updateDataBook();
+	resetDataForm();
+	dataBookForUpdate = null;
 };
 
 const handleUpdate = (bookElem) => {
@@ -149,10 +168,11 @@ const handleUpdate = (bookElem) => {
 	isUpdate = true;
 
 	console.log("handle update", detailBook);
-	return updateBookToList(detailBook);
+	dataBookForUpdate = detailBook;
 };
 
 const searchBookFunction = () => {
+	console.log(dataBookForUpdate);
 	let inputSearch = document.getElementById("searchBookTitle").value;
 	const searchedBook = searchBook(inputSearch);
 	const allContainer = document.querySelectorAll(".book_item");
