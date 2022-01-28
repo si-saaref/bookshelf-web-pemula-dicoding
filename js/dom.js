@@ -232,19 +232,19 @@ const removeButton = () => {
 
 const finishButton = () => {
 	return createButton("Selesai", "finish-button", function (e) {
-		moveBookToCompleteList(e.target.parentElement);
+		moveBookToCompleteList(e.target.parentElement.parentElement);
 	});
 };
 
 const updateButton = () => {
 	return createButton("Update", "update-button", function (e) {
-		handleUpdate(e.target.parentElement);
+		handleUpdate(e.target.parentElement.parentElement);
 	});
 };
 
 const undoButton = () => {
 	return createButton("Undo", "undo-button", function (e) {
-		undoBookFromCompleteList(e.target.parentElement);
+		undoBookFromCompleteList(e.target.parentElement.parentElement);
 	});
 };
 
