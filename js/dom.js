@@ -35,7 +35,7 @@ const createContainer = (bookTitle, bookAuthor, bookYear, isComplete) => {
 		buttonContainer.append(buttonFinish, buttonTrash, buttonUpdate);
 		Container.append(titleContainer, authorContainer, yearContainer, buttonContainer);
 	} else {
-		buttonContainer.append(buttonFinish, buttonTrash);
+		buttonContainer.append(buttonUndo, buttonTrash);
 		Container.append(titleContainer, authorContainer, yearContainer, buttonContainer);
 	}
 
@@ -226,7 +226,7 @@ const createButton = (buttonText, buttonClassName, buttonEventListener) => {
 
 const removeButton = () => {
 	return createButton("Hapus", "remove-button", function (e) {
-		deleteBookFromList(e.target.parentElement);
+		deleteBookFromList(e.target.parentElement.parentElement);
 	});
 };
 
