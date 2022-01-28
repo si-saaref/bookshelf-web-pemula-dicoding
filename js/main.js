@@ -1,6 +1,5 @@
 window.addEventListener("load", function () {
 	const submitForm = document.getElementById("inputBook");
-
 	submitForm.addEventListener("submit", function (e) {
 		e.preventDefault();
 		if (isUpdate) {
@@ -9,14 +8,16 @@ window.addEventListener("load", function () {
 			addBookToList();
 		}
 	});
-
-	const buttonSearch = document.getElementById("searchBook");
-
-	buttonSearch.addEventListener("submit", function (e) {
+	
+	const buttonSearch = document.getElementById("searchSubmit");
+	buttonSearch.addEventListener("click", function (e) {
 		e.preventDefault();
-		searchBookFunction();
+		searchBookFunction(); 
+		const inputBox = document.getElementById("input-box");
+		const buttonRemoveClass = removeButtonInput()
+		inputBox.append(buttonRemoveClass)
 	});
-
+	
 	if (isStorageExist()) {
 		getBookFromLocalStorage();
 	}

@@ -15,6 +15,14 @@ button {
 	font-size: 16px;
 }
 
+button {
+	cursor: pointer;
+}
+
+button:hover {
+	transform: scale(1.01);
+}
+
 .head_bar {
 	padding: 12px;
 	display: flex;
@@ -112,6 +120,7 @@ main {
 .search_section > form > label {
 	display: flex;
 	align-items: center;
+	font-size: 1.3em;
 }
 
 .search_section > form > input {
@@ -154,12 +163,9 @@ p {
 	margin: 8px 0;
 }
 
-.book_shelf > .book_list > .book_item > .action > button {
-	border: 0;
-	padding: 5px;
-	margin: 0 5px 0 0;
-	border-radius: 5px;
-	cursor: pointer;
+.action {
+	display: flex;
+	gap: 5px;
 }
 
 .finish-button {
@@ -190,6 +196,38 @@ p {
 	color: white;
 }
 
+.clear-button {
+	position: absolute;
+	top: 3.3px;
+	right: 5px;
+	font-size: 1.2em;
+	color: rgb(122, 113, 113);
+	background: transparent;
+	border: none;
+}
+
+.clear-button:hover {
+	color: black;
+	font-size: 1.4em;
+}
+
 .scaleX2 {
-	background: #999;
+	background: rgb(184, 182, 182);
+	transform: scale(1.05);
+	transition: 1s;
+}
+
+.active-input {
+	background: rgb(172, 170, 170);
+}
+
+#input-box {
+	display: flex;
+	position: relative;
+}
+
+#searchBookTitle {
+	flex-grow: 1;
+	padding: 5px;
+	border-radius: 10px;
 }

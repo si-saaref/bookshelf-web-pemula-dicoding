@@ -23,22 +23,20 @@ const createContainer = (bookTitle, bookAuthor, bookYear, isComplete) => {
 	const Container = document.createElement("article");
 	Container.classList.add("book_item");
 
+	const buttonContainer = document.createElement("div");
+	buttonContainer.classList.add("action");
+
 	const buttonTrash = removeButton();
 	const buttonFinish = finishButton();
 	const buttonUndo = undoButton();
 	const buttonUpdate = updateButton();
 
 	if (!isComplete) {
-		Container.append(
-			titleContainer,
-			authorContainer,
-			yearContainer,
-			buttonFinish,
-			buttonTrash,
-			buttonUpdate
-		);
+		buttonContainer.append(buttonFinish, buttonTrash, buttonUpdate);
+		Container.append(titleContainer, authorContainer, yearContainer, buttonContainer);
 	} else {
-		Container.append(titleContainer, authorContainer, yearContainer, buttonUndo, buttonTrash);
+		buttonContainer.append(buttonFinish, buttonTrash);
+		Container.append(titleContainer, authorContainer, yearContainer, buttonContainer);
 	}
 
 	return Container;
@@ -54,7 +52,6 @@ const addBookToList = () => {
 	const bookContainer = createContainer(bookTitle, bookAuthor, bookYear, bookIsComplete);
 	const composedBookContainer = composedDataBook(bookTitle, bookAuthor, bookYear, bookIsComplete);
 	bookContainer[BOOK_ID] = composedBookContainer.id;
-	// bookContainer.setAttribute("id", composedBookContainer.id);
 	books.push(composedBookContainer);
 
 	const parentUnFinishContainer = document.getElementById(UNFINISH_BOOK);
@@ -67,8 +64,6 @@ const addBookToList = () => {
 
 	console.log(bookContainer);
 	console.log(composedBookContainer);
-	// console.log("isUpdate ", isUpdate);
-	// console.log("toDelete ", isUpdate);
 
 	updateDataBook();
 	resetDataForm();
@@ -77,7 +72,6 @@ const addBookToList = () => {
 const deleteBookFromList = (bookElement) => {
 	const bookIndexPosition = findBookIndex(bookElement[BOOK_ID]);
 	books.splice(bookIndexPosition, 1);
-	console.log(bookIndexPosition);
 	bookElement.remove();
 	updateDataBook();
 };
@@ -173,13 +167,12 @@ const handleUpdate = (bookElem) => {
 
 const searchBookFunction = () => {
 	console.log(dataBookForUpdate);
-	let inputSearch = document.getElementById("searchBookTitle").value;
-	const searchedBook = searchBook(inputSearch);
+	let inputSearch = document.getElementById("searchBookTitle");
+	const searchedBook = searchBook(inputSearch.value);
 	const allContainer = document.querySelectorAll(".book_item");
 	console.log(allContainer);
 	let filteredBook = [];
 	allContainer.forEach((e) => {
-		console.log(e[BOOK_ID]);
 		searchedBook.forEach((book) => {
 			e.classList.remove("scaleX2");
 			return e[BOOK_ID] === book.id && filteredBook.push(e);
@@ -188,7 +181,7 @@ const searchBookFunction = () => {
 	filteredBook.forEach((e) => {
 		e.classList.add("scaleX2");
 	});
-	resetDataForm();
+	// resetDataForm();
 };
 
 const resetDataForm = () => {
@@ -202,6 +195,22 @@ const resetDataForm = () => {
 	bookYear.value = "";
 	bookIsComplete.checked = false;
 	inputSearch.value = "";
+};
+
+const handleCleanSearchedBook = (e) => {
+	e.preventDefault();
+	let inputSearch = document.getElementById("searchBookTitle");
+	const allContainer = document.querySelectorAll(".book_item");
+	const searchedBook = searchBook(inputSearch.value);
+	console.log(allContainer);
+	let filteredBook = [];
+	allContainer.forEach((e) => {
+		searchedBook.forEach((book) => {
+			e.classList.remove("scaleX2");
+			return e[BOOK_ID] === book.id && filteredBook.push(e);
+		});
+	});
+	resetDataForm();
 };
 
 // BUTTON
@@ -236,5 +245,11 @@ const updateButton = () => {
 const undoButton = () => {
 	return createButton("Undo", "undo-button", function (e) {
 		undoBookFromCompleteList(e.target.parentElement);
+	});
+};
+
+const removeButtonInput = () => {
+	return createButton("X", "clear-button", function (e) {
+		handleCleanSearchedBook(e);
 	});
 };
