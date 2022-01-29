@@ -93,6 +93,7 @@ const moveBookToCompleteList = (bookElement) => {
 
 	bookElement.remove();
 	updateDataBook();
+	goToBookSection(bookContainer[BOOK_ID]);
 };
 
 const undoBookFromCompleteList = (bookElement) => {
@@ -217,6 +218,7 @@ const handleCleanSearchedBook = (e) => {
 		});
 	});
 	resetDataForm();
+	e.target.remove();
 };
 
 const goToBookSection = (id) => {
