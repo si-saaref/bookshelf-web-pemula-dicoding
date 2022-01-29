@@ -2,6 +2,7 @@
 	padding: 0;
 	margin: 0;
 	box-sizing: border-box;
+	scroll-behavior: smooth;
 }
 
 body,
@@ -149,13 +150,15 @@ main {
 
 .book_shelf > .book_list {
 	padding: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
 }
 
 .book_shelf > .book_list > .book_item {
 	padding: 8px 16px 16px 16px;
 	border: 1px solid black;
 	border-radius: 5px;
-	margin: 10px 0;
 }
 
 .book_shelf > .book_list > .book_item > h3,
@@ -215,6 +218,7 @@ p {
 	background: rgb(184, 182, 182);
 	transform: scale(1.05);
 	transition: 1s;
+	margin: 20px 0;
 }
 
 .active-input {

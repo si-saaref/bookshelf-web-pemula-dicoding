@@ -67,6 +67,7 @@ const addBookToList = () => {
 
 	updateDataBook();
 	resetDataForm();
+	goToBookSection(composedBookContainer.id)
 };
 
 const deleteBookFromList = (bookElement) => {
@@ -145,6 +146,8 @@ const updateBookToList = () => {
 	updateDataBook();
 	resetDataForm();
 	dataBookForUpdate = null;
+
+	goToBookSection(id)
 };
 
 const handleUpdate = (bookElem) => {
@@ -161,9 +164,12 @@ const handleUpdate = (bookElem) => {
 
 	isUpdate = true;
 
+	const mainFormDiv = document.querySelector("main .input_section");
+	mainFormDiv.scrollIntoView();
+
 	console.log("handle update", detailBook);
 	dataBookForUpdate = detailBook;
-};
+};;
 
 const searchBookFunction = () => {
 	console.log(dataBookForUpdate);
@@ -179,9 +185,9 @@ const searchBookFunction = () => {
 		});
 	});
 	filteredBook.forEach((e) => {
+		e.scrollIntoView();;
 		e.classList.add("scaleX2");
 	});
-	// resetDataForm();
 };
 
 const resetDataForm = () => {
@@ -212,6 +218,16 @@ const handleCleanSearchedBook = (e) => {
 	});
 	resetDataForm();
 };
+
+const goToBookSection = (id) => {
+	const allContainer = document.querySelectorAll(".book_item")
+	allContainer.forEach((e) => {
+		if (e[BOOK_ID] === id) {
+			e.scrollIntoView()
+		}
+	})
+}
+
 
 // BUTTON
 const createButton = (buttonText, buttonClassName, buttonEventListener) => {
