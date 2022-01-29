@@ -4,7 +4,7 @@ const BOOK_ID = "bookId";
 
 let isUpdate = false;
 let toDeleteUpdate = false;
-let dataBookForUpdate;
+let dataBook;
 
 // CONTAINER
 const createContainer = (bookTitle, bookAuthor, bookYear, isComplete) => {
@@ -42,6 +42,29 @@ const createContainer = (bookTitle, bookAuthor, bookYear, isComplete) => {
 	return Container;
 };
 
+const createModalPrompt = () => {
+	const mainContainer = document.querySelector("body");
+	const outerContainer = document.createElement("div");
+	outerContainer.classList.add("outer-modal");
+
+	const container = document.createElement("div");
+	container.classList.add("active-modal");
+
+	const question = document.createElement("h1");
+	question.innerText = "Apakah anda yakin ingin menghapus buku ini?";
+
+	const buttonContainer = document.createElement("div");
+	buttonContainer.classList.add("button-modal-container");
+
+	const acceptButton = acceptPromptButton();
+	const declineButton = declinePromptButton();
+
+	buttonContainer.append(acceptButton, declineButton);
+	container.append(question, buttonContainer);
+	outerContainer.append(container);
+	mainContainer.append(outerContainer);
+};
+
 //  ACTION
 const addBookToList = () => {
 	const bookTitle = document.getElementById("inputBookTitle").value;
@@ -70,10 +93,11 @@ const addBookToList = () => {
 	goToBookSection(composedBookContainer.id)
 };
 
-const deleteBookFromList = (bookElement) => {
-	const bookIndexPosition = findBookIndex(bookElement[BOOK_ID]);
+const deleteBookFromList = (modalContainer) => {
+	const bookIndexPosition = findBookIndex(dataBook[BOOK_ID]);
 	books.splice(bookIndexPosition, 1);
-	bookElement.remove();
+	dataBook.remove();
+	modalContainer.remove();;
 	updateDataBook();
 };
 
@@ -120,7 +144,7 @@ const updateBookToList = () => {
 	let bookYear = document.getElementById("inputBookYear").value;
 	let isComplete = document.getElementById("inputBookIsComplete").checked;
 
-	const { id } = dataBookForUpdate;
+	const { id } = dataBook;
 
 	const allContainer = document.querySelectorAll(".book_item");
 	allContainer.forEach((e) => {
@@ -146,7 +170,7 @@ const updateBookToList = () => {
 	toDeleteUpdate = false;
 	updateDataBook();
 	resetDataForm();
-	dataBookForUpdate = null;
+	dataBook = null;
 
 	goToBookSection(id)
 };
@@ -169,11 +193,11 @@ const handleUpdate = (bookElem) => {
 	mainFormDiv.scrollIntoView();
 
 	console.log("handle update", detailBook);
-	dataBookForUpdate = detailBook;
+	dataBook = detailBook;
 };;
 
 const searchBookFunction = () => {
-	console.log(dataBookForUpdate);
+	console.log(dataBook);
 	let inputSearch = document.getElementById("searchBookTitle");
 	const searchedBook = searchBook(inputSearch.value);
 	const allContainer = document.querySelectorAll(".book_item");
@@ -244,7 +268,8 @@ const createButton = (buttonText, buttonClassName, buttonEventListener) => {
 
 const removeButton = () => {
 	return createButton("Hapus", "remove-button", function (e) {
-		deleteBookFromList(e.target.parentElement.parentElement);
+		dataBook = e.target.parentElement.parentElement;
+		createModalPrompt();
 	});
 };
 
@@ -269,5 +294,17 @@ const undoButton = () => {
 const removeButtonInput = () => {
 	return createButton("X", "clear-button", function (e) {
 		handleCleanSearchedBook(e);
+	});
+};
+
+const acceptPromptButton = () => {
+	return createButton("Sure", "accept-prompt-button", function (e) {
+		deleteBookFromList(e.target.parentElement.parentElement.parentElement);
+	});
+};
+
+const declinePromptButton = () => {
+	return createButton("Cancel", "decline-prompt-button", function (e) {
+		e.target.parentElement.parentElement.parentElement.remove();
 	});
 };

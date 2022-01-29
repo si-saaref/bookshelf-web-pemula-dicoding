@@ -173,29 +173,29 @@ p {
 
 .finish-button {
 	background-color: darkgreen;
-  padding: 5px;
-  border-radius: 5px;
+	padding: 5px;
+	border-radius: 5px;
 	color: white;
 }
 
 .remove-button {
-  background-color: darkred;
-  padding: 5px;
-  border-radius: 5px;
+	background-color: darkred;
+	padding: 5px;
+	border-radius: 5px;
 	color: white;
 }
 
 .undo-button {
 	background-color: darkgreen;
-  padding: 5px;
-  border-radius: 5px;
+	padding: 5px;
+	border-radius: 5px;
 	color: white;
 }
 
 .update-button {
 	background-color: darkgreen;
-  padding: 5px;
-  border-radius: 5px;
+	padding: 5px;
+	border-radius: 5px;
 	color: white;
 }
 
@@ -234,4 +234,46 @@ p {
 	flex-grow: 1;
 	padding: 5px;
 	border-radius: 10px;
+}
+
+.outer-modal {
+	position: fixed;
+	top: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100%;
+	background: rgba(0, 0, 0, 0.7);
+}
+
+.active-modal {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	height: 250px;
+	width: 500px;
+	background: rgb(250, 253, 255);
+	padding: 20px;
+	border-radius: 20px;
+	border: 1px solid black;
+}
+
+.button-modal-container {
+	display: flex;
+	gap: 10px;
+	padding: 0s 10px;
+	flex-direction: row-reverse;
+}
+
+.accept-prompt-button {
+	border: 2px solid green;
+	border-radius: 5px;
+	padding: 5px 10px;
+}
+
+.decline-prompt-button {
+	border: 2px solid red;
+	border-radius: 5px;
+	padding: 5px 10px;
 }
