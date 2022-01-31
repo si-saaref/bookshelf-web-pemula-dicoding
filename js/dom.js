@@ -43,6 +43,7 @@ const createContainer = (bookTitle, bookAuthor, bookYear, isComplete) => {
 };
 
 const createModalPrompt = () => {
+	const bookName = dataBook.querySelector(".book_item > h2.title").innerText;
 	const mainContainer = document.querySelector("body");
 	const outerContainer = document.createElement("div");
 	outerContainer.classList.add("outer-modal");
@@ -50,8 +51,8 @@ const createModalPrompt = () => {
 	const container = document.createElement("div");
 	container.classList.add("active-modal");
 
-	const question = document.createElement("h1");
-	question.innerText = "Apakah anda yakin ingin menghapus buku ini?";
+	const question = document.createElement("h2");
+	question.innerText = `Apakah anda yakin ingin menghapus buku ${bookName}?`;
 
 	const buttonContainer = document.createElement("div");
 	buttonContainer.classList.add("button-modal-container");
@@ -90,14 +91,14 @@ const addBookToList = () => {
 
 	updateDataBook();
 	resetDataForm();
-	goToBookSection(composedBookContainer.id)
+	goToBookSection(composedBookContainer.id);
 };
 
 const deleteBookFromList = (modalContainer) => {
 	const bookIndexPosition = findBookIndex(dataBook[BOOK_ID]);
 	books.splice(bookIndexPosition, 1);
 	dataBook.remove();
-	modalContainer.remove();;
+	modalContainer.remove();
 	updateDataBook();
 };
 
@@ -172,10 +173,11 @@ const updateBookToList = () => {
 	resetDataForm();
 	dataBook = null;
 
-	goToBookSection(id)
+	goToBookSection(id);
 };
 
 const handleUpdate = (bookElem) => {
+	bookElem.classList.add("highlight-book");
 	let bookInputTitle = document.getElementById("inputBookTitle");
 	let bookInputAuthor = document.getElementById("inputBookAuthor");
 	let bookInputYear = document.getElementById("inputBookYear");
@@ -194,7 +196,7 @@ const handleUpdate = (bookElem) => {
 
 	console.log("handle update", detailBook);
 	dataBook = detailBook;
-};;
+};
 
 const searchBookFunction = () => {
 	console.log(dataBook);
@@ -205,13 +207,13 @@ const searchBookFunction = () => {
 	let filteredBook = [];
 	allContainer.forEach((e) => {
 		searchedBook.forEach((book) => {
-			e.classList.remove("scaleX2");
+			e.classList.remove("highlight-book");
 			return e[BOOK_ID] === book.id && filteredBook.push(e);
 		});
 	});
 	filteredBook.forEach((e) => {
-		e.scrollIntoView();;
-		e.classList.add("scaleX2");
+		e.scrollIntoView();
+		e.classList.add("highlight-book");
 	});
 };
 
@@ -237,7 +239,7 @@ const handleCleanSearchedBook = (e) => {
 	let filteredBook = [];
 	allContainer.forEach((e) => {
 		searchedBook.forEach((book) => {
-			e.classList.remove("scaleX2");
+			e.classList.remove("highlight-book");
 			return e[BOOK_ID] === book.id && filteredBook.push(e);
 		});
 	});
@@ -246,14 +248,23 @@ const handleCleanSearchedBook = (e) => {
 };
 
 const goToBookSection = (id) => {
-	const allContainer = document.querySelectorAll(".book_item")
+	const allContainer = document.querySelectorAll(".book_item");
 	allContainer.forEach((e) => {
 		if (e[BOOK_ID] === id) {
-			e.scrollIntoView()
+			e.scrollIntoView();
 		}
-	})
-}
+	});
+};
 
+const handleChaneIsComplete = () => {
+	const isComplete = document.getElementById("inputBookIsComplete").checked;
+	const bookDest = document.getElementById("bookDestination");
+	if (isComplete) {
+		bookDest.innerText = "Selesai dibaca";
+	} else {
+		bookDest.innerText = "Belum selesai dibaca";
+	}
+};
 
 // BUTTON
 const createButton = (buttonText, buttonClassName, buttonEventListener) => {
@@ -267,26 +278,26 @@ const createButton = (buttonText, buttonClassName, buttonEventListener) => {
 };
 
 const removeButton = () => {
-	return createButton("Hapus", "remove-button", function (e) {
+	return createButton("Hapus", "red-button", function (e) {
 		dataBook = e.target.parentElement.parentElement;
 		createModalPrompt();
 	});
 };
 
 const finishButton = () => {
-	return createButton("Selesai", "finish-button", function (e) {
+	return createButton("Selesai", "green-button", function (e) {
 		moveBookToCompleteList(e.target.parentElement.parentElement);
 	});
 };
 
 const updateButton = () => {
-	return createButton("Update", "update-button", function (e) {
+	return createButton("Update", "green-button", function (e) {
 		handleUpdate(e.target.parentElement.parentElement);
 	});
 };
 
 const undoButton = () => {
-	return createButton("Undo", "undo-button", function (e) {
+	return createButton("Undo", "green-button", function (e) {
 		undoBookFromCompleteList(e.target.parentElement.parentElement);
 	});
 };
@@ -298,13 +309,13 @@ const removeButtonInput = () => {
 };
 
 const acceptPromptButton = () => {
-	return createButton("Sure", "accept-prompt-button", function (e) {
+	return createButton("Sure", "green-button", function (e) {
 		deleteBookFromList(e.target.parentElement.parentElement.parentElement);
 	});
 };
 
 const declinePromptButton = () => {
-	return createButton("Cancel", "decline-prompt-button", function (e) {
+	return createButton("Cancel", "red-button", function (e) {
 		e.target.parentElement.parentElement.parentElement.remove();
 	});
 };

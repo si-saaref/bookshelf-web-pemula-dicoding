@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2&family=Raleway&display=swap");
+
 * {
 	padding: 0;
 	margin: 0;
@@ -8,7 +10,7 @@
 body,
 input,
 button {
-	font-family: "Open Sans", sans-serif;
+	font-family: "Inter", sans-serif;
 }
 
 input,
@@ -58,7 +60,7 @@ main {
 }
 
 .input_section > form > button {
-	background-color: cornflowerblue;
+	background-color: rgb(126, 167, 245);
 	color: white;
 	border: 0;
 	border-radius: 5px;
@@ -70,6 +72,7 @@ main {
 
 .input_section > form > button > span {
 	font-weight: bold;
+	color: black;
 }
 
 .input_section > form > .input > input {
@@ -126,11 +129,11 @@ main {
 
 .search_section > form > input {
 	padding: 5px;
-	border-radius: 5px;
+	border-radius: 15px;
 }
 
 .search_section > form > button {
-	background-color: cornflowerblue;
+	background-color: rgb(129, 169, 243);
 	color: white;
 	border: 0;
 	border-radius: 5px;
@@ -159,6 +162,7 @@ main {
 	padding: 8px 16px 16px 16px;
 	border: 1px solid black;
 	border-radius: 5px;
+	transition: 1s;
 }
 
 .book_shelf > .book_list > .book_item > h3,
@@ -171,38 +175,40 @@ p {
 	gap: 5px;
 }
 
-.finish-button {
-	background-color: darkgreen;
-	padding: 5px;
-	border-radius: 5px;
-	color: white;
+.green-button,
+.red-button {
+	border-radius: 8px;
+	padding: 5px 10px;
+	font-family: "Raleway";
 }
 
-.remove-button {
-	background-color: darkred;
-	padding: 5px;
-	border-radius: 5px;
-	color: white;
+.green-button:hover,
+.red-button:hover {
+	transition: 0.4s;
 }
 
-.undo-button {
-	background-color: darkgreen;
-	padding: 5px;
-	border-radius: 5px;
-	color: white;
+.green-button {
+	border: 1px solid darkgreen;
 }
 
-.update-button {
-	background-color: darkgreen;
-	padding: 5px;
-	border-radius: 5px;
-	color: white;
+.green-button:hover {
+	background: darkgreen;
+	color: snow;
+}
+
+.red-button {
+	border: 1px solid darkred;
+}
+
+.red-button:hover {
+	background: darkred;
+	color: snow;
 }
 
 .clear-button {
 	position: absolute;
 	top: 3.3px;
-	right: 5px;
+	right: 10px;
 	font-size: 1.2em;
 	color: rgb(122, 113, 113);
 	background: transparent;
@@ -214,10 +220,9 @@ p {
 	font-size: 1.4em;
 }
 
-.scaleX2 {
+.highlight-book {
 	background: rgb(184, 182, 182);
 	transform: scale(1.05);
-	transition: 1s;
 	margin: 20px 0;
 }
 
@@ -233,7 +238,7 @@ p {
 #searchBookTitle {
 	flex-grow: 1;
 	padding: 5px;
-	border-radius: 10px;
+	border-radius: 15px;
 }
 
 .outer-modal {
@@ -253,6 +258,7 @@ p {
 	flex-direction: column;
 	height: 250px;
 	width: 500px;
+	margin: 30px;
 	background: rgb(250, 253, 255);
 	padding: 20px;
 	border-radius: 20px;
@@ -264,16 +270,4 @@ p {
 	gap: 10px;
 	padding: 0s 10px;
 	flex-direction: row-reverse;
-}
-
-.accept-prompt-button {
-	border: 2px solid green;
-	border-radius: 5px;
-	padding: 5px 10px;
-}
-
-.decline-prompt-button {
-	border: 2px solid red;
-	border-radius: 5px;
-	padding: 5px 10px;
 }
