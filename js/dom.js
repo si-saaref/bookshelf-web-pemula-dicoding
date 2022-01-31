@@ -86,9 +86,6 @@ const addBookToList = () => {
 		? parentFinishContainer.append(bookContainer)
 		: parentUnFinishContainer.append(bookContainer);
 
-	console.log(bookContainer);
-	console.log(composedBookContainer);
-
 	updateDataBook();
 	resetDataForm();
 	goToBookSection(composedBookContainer.id);
@@ -194,16 +191,13 @@ const handleUpdate = (bookElem) => {
 	const mainFormDiv = document.querySelector("main .input_section");
 	mainFormDiv.scrollIntoView();
 
-	console.log("handle update", detailBook);
 	dataBook = detailBook;
 };
 
 const searchBookFunction = () => {
-	console.log(dataBook);
 	let inputSearch = document.getElementById("searchBookTitle");
 	const searchedBook = searchBook(inputSearch.value);
 	const allContainer = document.querySelectorAll(".book_item");
-	console.log(allContainer);
 	let filteredBook = [];
 	allContainer.forEach((e) => {
 		searchedBook.forEach((book) => {
@@ -235,7 +229,6 @@ const handleCleanSearchedBook = (e) => {
 	let inputSearch = document.getElementById("searchBookTitle");
 	const allContainer = document.querySelectorAll(".book_item");
 	const searchedBook = searchBook(inputSearch.value);
-	console.log(allContainer);
 	let filteredBook = [];
 	allContainer.forEach((e) => {
 		searchedBook.forEach((book) => {
